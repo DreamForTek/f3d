@@ -171,78 +171,94 @@ void vtkF3DRenderer::Initialize(const f3d::options& options, const std::string& 
   this->Skybox->SetFloorPlane(this->UpVector[0], this->UpVector[1], this->UpVector[2], 0.0);
   this->Skybox->SetFloorRight(front[0], front[1], front[2]);
 
-  if (this->GetUseImageBasedLighting())
-  {
-    this->AddActor(this->Skybox);
-    this->AutomaticLightCreationOff();
-  }
-  else
-  {
-    if (options.get<bool>("no-background") && !options.get<std::string>("output").empty())
-    {
-      // we need to set the background to black to avoid blending issues with translucent
-      // objects when saving to file with no background
-      this->SetBackground(0, 0, 0);
-    }
-    else
-    {
-      this->SetBackground(options.get<std::vector<double> >("background-color").data());
-    }
-    this->AutomaticLightCreationOn();
-  }
+  // if (this->GetUseImageBasedLighting())
+  // {
+  //   this->AddActor(this->Skybox);
+  //   this->AutomaticLightCreationOff();
+  // }
+  // else
+  // {
+  //   if (options.get<bool>("no-background") && !options.get<std::string>("output").empty())
+  //   {
+  //     // we need to set the background to black to avoid blending issues with translucent
+  //     // objects when saving to file with no background
+  //     this->SetBackground(0, 0, 0);
+  //   }
+  //   else
+  //   {
+  //     this->SetBackground(options.get<std::vector<double> >("background-color").data());
+  //   }
+  //   this->AutomaticLightCreationOn();
+  // }
 
-  double textColor[3];
-  if (this->IsBackgroundDark())
-  {
-    textColor[0] = textColor[1] = textColor[2] = 1.0;
-  }
-  else
-  {
-    textColor[0] = textColor[1] = textColor[2] = 0.0;
-  }
+  // double textColor[3];
+  // if (this->IsBackgroundDark())
+  // {
+  //   textColor[0] = textColor[1] = textColor[2] = 1.0;
+  // }
+  // else
+  // {
+  //   textColor[0] = textColor[1] = textColor[2] = 0.0;
+  // }
 
-  this->FilenameActor->SetText(vtkCornerAnnotation::UpperEdge, fileInfo.c_str());
-  this->FilenameActor->GetTextProperty()->SetColor(textColor);
+  // this->FilenameActor->SetText(vtkCornerAnnotation::UpperEdge, fileInfo.c_str());
+  // this->FilenameActor->GetTextProperty()->SetColor(textColor);
 
-  this->MetaDataActor->GetTextProperty()->SetFontSize(15);
-  this->MetaDataActor->GetTextProperty()->SetOpacity(0.5);
-  this->MetaDataActor->GetTextProperty()->SetBackgroundColor(0, 0, 0);
-  this->MetaDataActor->GetTextProperty()->SetBackgroundOpacity(0.5);
+  // this->MetaDataActor->GetTextProperty()->SetFontSize(15);
+  // this->MetaDataActor->GetTextProperty()->SetOpacity(0.5);
+  // this->MetaDataActor->GetTextProperty()->SetBackgroundColor(0, 0, 0);
+  // this->MetaDataActor->GetTextProperty()->SetBackgroundOpacity(0.5);
 
-  this->TimerActor->GetTextProperty()->SetColor(textColor);
-  this->TimerActor->GetTextProperty()->SetFontSize(15);
-  this->TimerActor->SetPosition(10, 10);
+  // this->TimerActor->GetTextProperty()->SetColor(textColor);
+  // this->TimerActor->GetTextProperty()->SetFontSize(15);
+  // this->TimerActor->SetPosition(10, 10);
 
-  this->CheatSheetActor->GetTextProperty()->SetFontSize(15);
-  this->CheatSheetActor->GetTextProperty()->SetOpacity(0.5);
-  this->CheatSheetActor->GetTextProperty()->SetBackgroundColor(0, 0, 0);
-  this->CheatSheetActor->GetTextProperty()->SetBackgroundOpacity(0.5);
+  // this->CheatSheetActor->GetTextProperty()->SetFontSize(15);
+  // this->CheatSheetActor->GetTextProperty()->SetOpacity(0.5);
+  // this->CheatSheetActor->GetTextProperty()->SetBackgroundColor(0, 0, 0);
+  // this->CheatSheetActor->GetTextProperty()->SetBackgroundOpacity(0.5);
 
-  this->FilenameActor->GetTextProperty()->SetFontFamilyToCourier();
-  this->MetaDataActor->GetTextProperty()->SetFontFamilyToCourier();
-  this->TimerActor->GetTextProperty()->SetFontFamilyToCourier();
-  this->CheatSheetActor->GetTextProperty()->SetFontFamilyToCourier();
+  // this->FilenameActor->GetTextProperty()->SetFontFamilyToCourier();
+  // this->MetaDataActor->GetTextProperty()->SetFontFamilyToCourier();
+  // this->TimerActor->GetTextProperty()->SetFontFamilyToCourier();
+  // this->CheatSheetActor->GetTextProperty()->SetFontFamilyToCourier();
 
-  std::string fontFile = options.get<std::string>("font-file");
-  if (!fontFile.empty())
-  {
-    fontFile = vtksys::SystemTools::CollapseFullPath(fontFile);
-    if (vtksys::SystemTools::FileExists(fontFile, true))
-    {
-      this->FilenameActor->GetTextProperty()->SetFontFamily(VTK_FONT_FILE);
-      this->FilenameActor->GetTextProperty()->SetFontFile(fontFile.c_str());
-      this->MetaDataActor->GetTextProperty()->SetFontFamily(VTK_FONT_FILE);
-      this->MetaDataActor->GetTextProperty()->SetFontFile(fontFile.c_str());
-      this->TimerActor->GetTextProperty()->SetFontFamily(VTK_FONT_FILE);
-      this->TimerActor->GetTextProperty()->SetFontFile(fontFile.c_str());
-      this->CheatSheetActor->GetTextProperty()->SetFontFamily(VTK_FONT_FILE);
-      this->CheatSheetActor->GetTextProperty()->SetFontFile(fontFile.c_str());
-    }
-    else
-    {
-      F3DLog::Print(F3DLog::Severity::Warning, "Cannot find \"", fontFile, "\" font file.");
-    }
-  }
+  // std::string fontFile = options.get<std::string>("font-file");
+  // if (!fontFile.empty())
+  // {
+  //   fontFile = vtksys::SystemTools::CollapseFullPath(fontFile);
+  //   if (vtksys::SystemTools::FileExists(fontFile, true))
+  //   {
+  //     this->FilenameActor->GetTextProperty()->SetFontFamily(VTK_FONT_FILE);
+  //     this->FilenameActor->GetTextProperty()->SetFontFile(fontFile.c_str());
+  //     this->MetaDataActor->GetTextProperty()->SetFontFamily(VTK_FONT_FILE);
+  //     this->MetaDataActor->GetTextProperty()->SetFontFile(fontFile.c_str());
+  //     this->TimerActor->GetTextProperty()->SetFontFamily(VTK_FONT_FILE);
+  //     this->TimerActor->GetTextProperty()->SetFontFile(fontFile.c_str());
+  //     this->CheatSheetActor->GetTextProperty()->SetFontFamily(VTK_FONT_FILE);
+  //     this->CheatSheetActor->GetTextProperty()->SetFontFile(fontFile.c_str());
+  //   }
+  //   else
+  //   {
+  //     F3DLog::Print(F3DLog::Severity::Warning, "Cannot find \"", fontFile, "\" font file.");
+  //   }
+  // }
+
+  this->SetBackground(128, 128,128);
+
+  
+  // this->SetBackground(255,255,255);
+  
+  // this->SetLayer(1);
+
+// this->AutomaticLightCreationOn();
+
+  // SetAmbient(1, 1, 1);
+
+
+
+//  this->AddActor(this->Skybox);
+    // this->AutomaticLightCreationOff();
 
   this->TimerActor->SetInput("0 fps");
 
